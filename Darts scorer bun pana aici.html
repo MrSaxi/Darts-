@@ -233,7 +233,13 @@
     var previousState = extractSymbol(this.innerHTML);
     var playerOneCell = cells[row * 2];
     var playerTwoCell = cells[row * 2 + 1];
-            if (extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') {
+            if (isPlayerOne) {
+        clickCountsPerPlayer[cellIndex].one++;
+    } else {
+        clickCountsPerPlayer[cellIndex].two++;
+    }
+                
+           if (extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') {
         event.preventDefault();
         return;
            }
