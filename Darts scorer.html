@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Darts Cricket</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #2B2B2B;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 40px;
+            border: 1px solid #888;
+            width: 40%;
+            text-align: center;
+        }
+        .modal-button {
+            background-color: #474747;
+            color: white;              
+            border: 1px solid #888;
+            padding: 8px 16px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 5px;              
+            display: inline-block;    
+        }                                
+        .modal-buttons-container {
+            text-align: center;        
+        }
+        
+        .table-and-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            background-color: #121212;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        table {
+            background-color: #1C1C1C;
+            width: 90%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        td {
+            height: 55px;
+            border: 3px solid #4D4D4D;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .one, .two {
+            width: 45%;
+            text-align: center;
+            border-top: 3px solid #4D4D4D;
+            border-bottom: 3px solid #4D4D4D;
+        }
+        td:first-child {
+            border-right: 3px solid #4D4D4D;
+        }
+        td:last-child {
+            border-left: 3px solid #4D4D4D;
+        }
+        .td-small {
+            width: 60px;
+            border: 3px solid #4D4D4D;
+        
+        }
+        .player-one {
+            border-top: 1px solid #4D4D4D;
+            border-bottom: 1px solid #4D4D4D;
+        }
+        .player-two {
+            border-top: 1px solid #4D4D4D;
+            border-bottom: 1px solid #4D4D4D;
+        }
+        .symbol-cell big {
+            font-size: 44px;
+            font-weight: normal;
+        }
+        .symbol-cell small {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .score {
+            font-size: 18px;
+            font-weight: normal;
+        }
+        button {
+            background-color: #474747; 
+            border: 1px solid #888;
+            padding: 8px 16px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 7px;
+            margin-right: 5px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+         }
+        button {
+            color: white;
+         }
+         #modalTitle {
+            color: #F1F1F1; 
+        }
+         .button-style {
+            width: 100px; 
+            height: 40px; 
+        }
+    </style>
+</head>
+<body>
+    <table> 
+        <div id="scoreModal" class="modal">
+        <div class="modal-content">
+            <p id="modalTitle">Select a number to add:</p>
+            <div id="numberOptions"></div>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+        <tr>
+            <td class="one" id="playerOneScore" onclick="renamePlayer('one')">Player One (0)</td>
+            <td class="td-small" ></td>
+            <td class="two" id="playerTwoScore" onclick="renamePlayer('two')">Player Two (0)</td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="20" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >20</td>
+            <td class="symbol-cell player-two" id="20" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="19" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >19</td>
+            <td class="symbol-cell player-two" id="19"data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="18" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >18</td>
+            <td class="symbol-cell player-two" id="18" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="17" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >17</td>
+            <td class="symbol-cell player-two" id="17" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="16" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >16</td>
+            <td class="symbol-cell player-two" id="16" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="15" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >15</td>
+            <td class="symbol-cell player-two" id="15" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="D" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >D</td>
+            <td class="symbol-cell player-two" id="D" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="T" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >T</td>
+            <td class="symbol-cell player-two" id="T" data-cell="true"></td>
+        </tr>
+        <tr>
+            <td class="symbol-cell player-one" id="B" data-cell="true"></td>
+            <td class="td-small" id="middle-cell" >B</td>
+            <td class="symbol-cell player-two" id="B" data-cell="true"></td>
+        </tr>  
+   <div class="table-and-buttons">
+    </table>
+      </div>
+        <div class="button-container">
+            <button class="button-style" onclick="undoEvent()">Undo</button>
+            <button class="button-style" onclick="resetGame()">Reset</button>
+        </div>
+        </div>
+<script>
+       var modal = document.getElementById('scoreModal');
+       var numberOptions = document.getElementById('numberOptions');
+    var currentPlayer = null;
+    var cells = document.querySelectorAll('[data-cell]');
+    var scores = {
+        'one': 0,
+        'two': 0,
+    };
+    
+
+    var playerNames = { one: 'Player One', two: 'Player Two' };
+    var clickCountsPerPlayer = Array(cells.length).fill({ one: 0, two: 0 });
+
+
+        for (var i = 0; i < cells.length; i++) {
+        cells[i].textContent = cells[i].dataset.cell;
+        cells[i].innerHTML = '';
+       
+        cells[i].addEventListener('click', function (event) {
+    var cellIndex = Array.from(cells).indexOf(this);
+    var row = Math.floor(cellIndex / 2);
+    var isPlayerOne = this.classList.contains('player-one');
+    var previousState = extractSymbol(this.innerHTML);
+    var playerOneCell = cells[row * 2];
+    var playerTwoCell = cells[row * 2 + 1];
+           if (isPlayerOne) {
+            clickCountsPerPlayer[cellIndex].one++;
+        } else {
+            clickCountsPerPlayer[cellIndex].two++;
+        }
+ 
+          if (extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') {
+        event.preventDefault();
+        return;
+           }
+            if ((isPlayerOne && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') || (!isPlayerOne && extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>')) {
+        event.preventDefault();
+        return;
+           }
+
+            if (previousState === '') {
+                this.innerHTML = '<small><b>\u2571</b></small>';
+                eventHistory.push({ type: 'symbol', cellIndex: cellIndex, symbol: '\u2571' });
+            } else if (previousState === '<small><b>\u2571</b></small>') {
+                this.innerHTML = '<small><b>\u2573</b></small>';
+                eventHistory.push({ type: 'symbol', cellIndex: cellIndex, symbol: '\u2573' });
+            } else if (previousState === '<small><b>\u2573</b></small>') {
+                this.innerHTML = '<big>\u29BB</big>';
+                eventHistory.push({ type: 'symbol', cellIndex: cellIndex, symbol: '\u29BB' });
+            } else if (previousState === '<big>\u29BB</big>') {
+                if ((row === 6 || row === 7) && previousState === '<big>\u29BB</big>') {
+                    currentPlayer = isPlayerOne ? 'one' : 'two';
+                    openModal(row, event);
+                    return;
+                } else {
+                    event.preventDefault();
+                    this.innerHTML = '<big>\u29BB</big>';
+                    var player = isPlayerOne ? 'one' : 'two';
+                    var scoreValue = this.parentElement.querySelector('#middle-cell').textContent;
+
+                    if (isNaN(parseInt(scoreValue))) {
+                        scoreValue = getSpecialScoreValue(scoreValue);
+                    }
+                    if (player === 'one') {
+                        scores.one += parseInt(scoreValue);
+                        updateScore('one', scores.one);
+                    } else if (player === 'two') {
+                        scores.two += parseInt(scoreValue);
+                        updateScore('two', scores.two);
+                    }
+                    eventHistory.push({ type: 'score', player: player, scoreValue: parseInt(scoreValue), cellIndex: cellIndex });
+
+                    if (rowSymbolReached[row] === 1) {
+                        rowSymbolReached[row]++;
+                    }
+                }
+            }
+        });
+    }
+
+    function extractSymbol(html) {
+        var temp = document.createElement('div');
+        temp.innerHTML = html;
+        return temp.innerHTML;
+    }
+    function updateScore(player, score) {
+        document.getElementById('player' + (player === 'one' ? 'One' : 'Two') + 'Score').textContent = playerNames[player] + ' (' + score + ')';
+    }
+    function getSpecialScoreValue(letter) {
+        if (letter === 'D') return 0;
+        if (letter === 'T') return 0;
+        if (letter === 'B') return 25;
+        return 0;
+    }    
+        function openModal(row, event) {
+    event.stopPropagation();
+        var options = [];
+        var title = '';
+        if (row === 6) { // Double row
+            options = [15, 16, 17, 18, 19, 20, 'B'];
+             title = 'Double';
+    } else if (row === 7) { // Triple row
+            options = [15, 16, 17, 18, 19, 20];
+            title = 'Triple';
+    }    
+    document.getElementById('modalTitle').textContent = 'Select a ' + title + ' number to add:';
+    numberOptions.innerHTML = '';
+    numberOptions.className = 'modal-buttons-container'; 
+   
+     options.forEach(function (number) {
+        var button = document.createElement('button');
+        button.textContent = number;
+        button.onclick = function () {
+            addScore(currentPlayer, number, row === 7 ? 3 : 2);
+            closeModal();
+        };
+        button.className = 'modal-button'; 
+        button.style.backgroundColor = '#333333'; // Set button's initial background color
+        button.style.transition = 'background-color 0.1s ease'; // Add a transition effect to the background color change
+        button.addEventListener('mouseover', function() {
+          button.style.backgroundColor = 'gray'; // Change background color on hover
+        });
+        button.addEventListener('mouseout', function() {
+          button.style.backgroundColor = '#333333'; // Change background color back on mouseout
+        });
+        numberOptions.appendChild(button);
+    });
+    modal.style.display = 'block';
+}
+   function closeModal() {
+         modal.style.display = 'none'  
+}      
+   function addScore(player, number, multiplier) {
+         var scoreToAdd = isNaN(number) ? getSpecialScoreValue(number) : parseInt(number);
+         scoreToAdd *= multiplier;
+         scores[player] += scoreToAdd;
+         updateScore(player, scores[player]);
+         eventHistory.push({ type: 'addScore', player: player, scoreValue: scoreToAdd, number: number, multiplier: multiplier });
+}
+    function resetGame() {
+        for (var i = 0; i < cells.length; i++) {
+            cells[i].innerHTML = '';
+        }
+        scores = { one: 0, two: 0 };
+        updateScore('one', scores.one);
+        updateScore('two', scores.two);
+        eventHistory = [];
+        clickCounts.fill(0);
+    }
+  function undoEvent() {
+    if (eventHistory.length === 0) return;
+    var lastEvent = eventHistory.pop();
+
+    if (lastEvent.type === 'symbol') {
+        var previousSymbol = '';
+        if (lastEvent.symbol === '\u2571') {
+            previousSymbol = '';
+        } else if (lastEvent.symbol === '\u2573') {
+            previousSymbol = '<small><b>\u2571</b></small>';
+        } else if (lastEvent.symbol === '\u29BB') {
+            previousSymbol = '<small><b>\u2573</b></small>';
+        }
+        cells[lastEvent.cellIndex].innerHTML = previousSymbol;
+     } else if (lastEvent.type === 'score') {
+        var player = lastEvent.player;
+        var scoreValue = lastEvent.scoreValue;
+        scores[player] -= scoreValue;
+        updateScore(player, scores[player]);
+    } else if (lastEvent.type === 'addScore') {
+        var player = lastEvent.player;
+        var scoreValue = lastEvent.scoreValue;
+        scores[player] -= scoreValue;
+        updateScore(player, scores[player]);
+    }
+}
+    function renamePlayer(player) {
+        var newName = prompt(' ' + playerNames[player] + ':');
+        if (newName !== null && newName.trim() !== '') {
+            playerNames[player] = newName.trim();
+            updateScore(player, scores[player]);
+        }
+    }
+</script>
+</body>
+</html>
