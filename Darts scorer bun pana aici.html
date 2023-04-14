@@ -233,20 +233,22 @@
     var previousState = extractSymbol(this.innerHTML);
     var playerOneCell = cells[row * 2];
     var playerTwoCell = cells[row * 2 + 1];
-            if (isPlayerOne) {
+
+    if (isPlayerOne) {
         clickCountsPerPlayer[cellIndex].one++;
     } else {
         clickCountsPerPlayer[cellIndex].two++;
     }
-                
-           if (extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') {
+
+    if (extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') {
         event.preventDefault();
         return;
-           }
-            if ((isPlayerOne && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') || (!isPlayerOne && extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>')) {
+    }
+
+    if ((isPlayerOne && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>' && clickCountsPerPlayer[cellIndex].one < 4) || (!isPlayerOne && extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && clickCountsPerPlayer[cellIndex].two < 4)) {
         event.preventDefault();
         return;
-           }
+    }
 
             if (previousState === '') {
                 this.innerHTML = '<small><b>\u2571</b></small>';
