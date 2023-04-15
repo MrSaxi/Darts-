@@ -148,7 +148,7 @@
     </div>
         <tr>
             <td class="one" id="playerOneScore" onclick="renamePlayer('one')">Player One (0)</td>
-            <td class="td-small" >0-0</td>
+            <td class="td-small" id="gameScore">0-0</td>
             <td class="two" id="playerTwoScore" onclick="renamePlayer('two')">Player Two (0)</td>
         </tr>
         <tr>
@@ -254,6 +254,9 @@
             } else if (previousState === '<small><b>\u2573</b></small>') {
                 this.innerHTML = '<big>\u29BB</big>';
                 eventHistory.push({ type: 'symbol', cellIndex: cellIndex, symbol: '\u29BB' });
+            if (checkForWin(isPlayerOne ? 'one' : 'two')) {
+    updateGameScore(isPlayerOne ? 'one' : 'two');
+               }
             } else if (previousState === '<big>\u29BB</big>') {
                 if ((row === 6 || row === 7) && previousState === '<big>\u29BB</big>') {
                     currentPlayer = isPlayerOne ? 'one' : 'two';
@@ -343,6 +346,36 @@
          scores[player] += scoreToAdd;
          updateScore(player, scores[player]);
          eventHistory.push({ type: 'addScore', player: player, scoreValue: scoreToAdd, number: number, multiplier: multiplier });
+}
+function checkForWin(player) {
+    var playerCells = document.querySelectorAll('.player-' + player);
+    var allSymbolsFulfilled = true;
+
+    for (var i = 0; i < playerCells.length; i++) {
+        if (extractSymbol(playerCells[i].innerHTML) !== '<big>\u29BB</big>') {
+            allSymbolsFulfilled = false;
+            break;
+        }
+    }
+
+    if (allSymbolsFulfilled) {
+        setTimeout(function () {
+            alert(playerNames[player] + ' has won the game!');
+            resetGame();
+        }, 100);
+    }
+
+    return allSymbolsFulfilled;
+}
+
+
+function updateGameScore(player) {
+    var gameScore = document.getElementById('gameScore');
+    var currentScore = gameScore.textContent.split('-');
+    var playerIndex = player === 'one' ? 0 : 1;
+
+    currentScore[playerIndex] = parseInt(currentScore[playerIndex]) + 1;
+    gameScore.textContent = currentScore.join('-');
 }
     function resetGame() {
         for (var i = 0; i < cells.length; i++) {
