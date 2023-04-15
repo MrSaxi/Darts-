@@ -148,7 +148,7 @@
     </div>
         <tr>
             <td class="one" id="playerOneScore" onclick="renamePlayer('one')">Player One (0)</td>
-            <td class="td-small" ></td>
+            <td class="td-small" >0-0</td>
             <td class="two" id="playerTwoScore" onclick="renamePlayer('two')">Player Two (0)</td>
         </tr>
         <tr>
@@ -205,45 +205,45 @@
         </div>
         </div>
 <script>
-       var modal = document.getElementById('scoreModal');
-    var numberOptions = document.getElementById('numberOptions');
-    var currentPlayer = null;
-    var cells = document.querySelectorAll('[data-cell]');
-    var scores = {
+      var modal = document.getElementById('scoreModal');
+      var numberOptions = document.getElementById('numberOptions');
+      var currentPlayer = null;
+      var cells = document.querySelectorAll('[data-cell]');
+      var scores = {
         'one': 0,
         'two': 0,
     };
     
 
-    var playerNames = { one: 'Player One', two: 'Player Two' };
-    var clickCountsPerPlayer = Array(cells.length).fill({ one: 0, two: 0 });
-    var cells = document.querySelectorAll('td[data-cell]');
-    var clickCounts = Array(cells.length / 2).fill(0);
-    var eventHistory = [];
-    var rowSymbolReached = Array(cells.length / 2).fill(0);
-    var clickCount = 0;
-    var rowState = Array(cells.length / 2).fill(0); // 0: none, 1: player one, 2: player two
+      var playerNames = { one: 'Player One', two: 'Player Two' };
+      var clickCountsPerPlayer = Array(cells.length).fill({ one: 0, two: 0 });
+      var cells = document.querySelectorAll('td[data-cell]');
+      var clickCounts = Array(cells.length / 2).fill(0);
+      var eventHistory = [];
+      var rowSymbolReached = Array(cells.length / 2).fill(0);
+      var clickCount = 0;
+      var rowState = Array(cells.length / 2).fill(0); // 0: none, 1: player one, 2: player two
 
 
         for (var i = 0; i < cells.length; i++) {
         cells[i].textContent = cells[i].dataset.cell;
         cells[i].innerHTML = '';
         cells[i].addEventListener('click', function (event) {
-    var cellIndex = Array.from(cells).indexOf(this);
-    var row = Math.floor(cellIndex / 2);
-    var isPlayerOne = this.classList.contains('player-one');
-    var previousState = extractSymbol(this.innerHTML);
-    var playerOneCell = cells[row * 2];
-    var playerTwoCell = cells[row * 2 + 1];
+            var cellIndex = Array.from(cells).indexOf(this);
+            var row = Math.floor(cellIndex / 2);
+            var isPlayerOne = this.classList.contains('player-one');
+            var previousState = extractSymbol(this.innerHTML);
+            var playerOneCell = cells[row * 2];
+            var playerTwoCell = cells[row * 2 + 1];
             
             if (extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') {
         event.preventDefault();
         return;
            }
-            if ((isPlayerOne && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>') || (!isPlayerOne && extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>')) {
-        event.preventDefault();
-        return;
-           }
+            if ((isPlayerOne && extractSymbol(playerTwoCell.innerHTML) === '<big>\u29BB</big>' && previousState === '<big>\u29BB</big>') || (!isPlayerOne && extractSymbol(playerOneCell.innerHTML) === '<big>\u29BB</big>' && previousState === '<big>\u29BB</big>')) {
+    event.preventDefault();
+    return;
+}
 
             if (previousState === '') {
                 this.innerHTML = '<small><b>\u2571</b></small>';
