@@ -201,7 +201,7 @@
       </div>
         <div class="button-container">
             <button class="button-style" onclick="undoEvent()">Undo</button>
-            <button class="button-style" onclick="resetGame()">Reset</button>
+            <button class="button-style" onclick="resetBoard()">Reset</button>
         </div>
         </div>
 <script>
@@ -377,14 +377,9 @@ function updateGameScore(player) {
 
     currentScore[playerIndex] = parseInt(currentScore[playerIndex]) + 1;
     gameScore.textContent = currentScore.join('-');
+
 }
-    function resetBoard() {
-    for (var i = 0; i < cells.length; i++) {
-        cells[i].innerHTML = '';
-    }
-    eventHistory = [];
-    clickCounts.fill(0);
-}
+
     function resetGame() {
         for (var i = 0; i < cells.length; i++) {
             cells[i].innerHTML = '';
@@ -394,10 +389,8 @@ function updateGameScore(player) {
         updateScore('two', scores.two);
         eventHistory = [];
         clickCounts.fill(0);
-       document.getElementById('resetButton').addEventListener('click', function () {
-    resetBoard();
-});
     }
+     
   function undoEvent() {
     if (eventHistory.length === 0) return;
     var lastEvent = eventHistory.pop();
