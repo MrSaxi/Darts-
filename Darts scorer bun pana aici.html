@@ -361,6 +361,7 @@ function checkForWin(player) {
     if (allSymbolsFulfilled) {
         setTimeout(function () {
             alert(playerNames[player] + ' has won the game!');
+            updateGameScore(player);
             resetGame();
         }, 100);
     }
