@@ -361,7 +361,7 @@ function checkForWin(player) {
     if (allSymbolsFulfilled) {
         setTimeout(function () {
             alert(playerNames[player] + ' has won the game!');
-            updateGameScore(player);
+           
             resetGame();
         }, 100);
     }
@@ -378,6 +378,13 @@ function updateGameScore(player) {
     currentScore[playerIndex] = parseInt(currentScore[playerIndex]) + 1;
     gameScore.textContent = currentScore.join('-');
 }
+    function resetBoard() {
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].innerHTML = '';
+    }
+    eventHistory = [];
+    clickCounts.fill(0);
+}
     function resetGame() {
         for (var i = 0; i < cells.length; i++) {
             cells[i].innerHTML = '';
@@ -387,6 +394,9 @@ function updateGameScore(player) {
         updateScore('two', scores.two);
         eventHistory = [];
         clickCounts.fill(0);
+       document.getElementById('resetButton').addEventListener('click', function () {
+    resetBoard();
+});
     }
   function undoEvent() {
     if (eventHistory.length === 0) return;
