@@ -148,7 +148,7 @@
     </div>
         <tr>
             <td class="one" id="playerOneScore" onclick="renamePlayer('one')">Player One (0)</td>
-            <td class="td-small" id="gameScore" style="font-size: 20px;">0 - 0</td>
+            <td class="td-small" id="gameScore" style="font-size: 18px;">10 - 10</td>
             <td class="two" id="playerTwoScore" onclick="renamePlayer('two')">Player Two (0)</td>
         </tr>
         <tr>
@@ -370,15 +370,15 @@ function checkForWin(player) {
 }
 
 
-function updateGameScore(player) {
-    var gameScore = document.getElementById('gameScore');
-    var currentScore = gameScore.textContent.split(' - ');
-    var playerIndex = player === 'one' ? 0 : 1;
+    function updateGameScore(player) {
+       var gameScore = document.getElementById('gameScore');
+       var currentScore = gameScore.textContent.split(' - ');
+       var playerIndex = player === 'one' ? 0 : 1;
 
     currentScore[playerIndex] = parseInt(currentScore[playerIndex]) + 1;
     gameScore.textContent = currentScore.join(' - ');
 
-}
+   }
 
     function resetGame() {
         for (var i = 0; i < cells.length; i++) {
@@ -391,25 +391,25 @@ function updateGameScore(player) {
         clickCounts.fill(0);
     }
     function resetScores() {
-    scores = { one: 0, two: 0 };
-    updateScore('one', scores.one);
-    updateScore('two', scores.two);
-    resetGameScore();
-}
+        scores = { one: 0, two: 0 };
+        updateScore('one', scores.one);
+        updateScore('two', scores.two);
+        resetGameScore();
+    }
 
-function resetGameScore() {
-    var gameScore = document.getElementById('gameScore');
-    gameScore.textContent = '0 - 0';
-}
+    function resetGameScore() {
+        var gameScore = document.getElementById('gameScore');
+        gameScore.textContent = '0 - 0';
+    }
 
-function resetBoard() {
-    resetGame();
-    resetScores();
-}
+    function resetBoard() {
+        resetGame();
+        resetScores();
+    }
      
-  function undoEvent() {
-    if (eventHistory.length === 0) return;
-    var lastEvent = eventHistory.pop();
+   function undoEvent() {
+        if (eventHistory.length === 0) return;
+        var lastEvent = eventHistory.pop();
 
     if (lastEvent.type === 'symbol') {
         var previousSymbol = '';
